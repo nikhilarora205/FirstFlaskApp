@@ -1,5 +1,10 @@
+#TO-LOOKUP: Route Decorator
+#Resource to understand Blueprints: https://www.youtube.com/watch?v=pjVhrIJFUEs&ab_channel=PrettyPrinted
+
 from flask import Flask
 import os
+from src.auth import auth
+from src.bookmarks import bookmarks
 
 def create_app(test_config=None):
 
@@ -11,19 +16,9 @@ def create_app(test_config=None):
         )
     else:
         app.config.from_mapping(test_config)
-
-    @app.get("/")
-    def index():
-        return "Hello world"
-
-
-    @app.get("/hello")
-    def hello_endpoint():
-        return {"message" : "Hello world"}
-
-    @app.get("/hello/")
-    def hello_endpoint_advanced():
-        return {"message" : "Hello world advanced!"}
+    
+    app.register_blueprint(auth)
+    app.register_blueprint(bookmarks)
 
     return app 
 
